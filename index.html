@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rolín Scout">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="styles.css">
+<title>Rolín Scout</title>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">R</div><div><b>ROLÍN SCOUT</b><small>CAREER INTELLIGENCE</small></div></div>
+    <div class="side-label">CENTRO DE CONTROL</div>
+    <nav id="sideNav">
+      <button class="nav-item active" data-page="overview"><span>◈</span> Resumen</button>
+      <button class="nav-item" data-page="career"><span>♙</span> Mi carrera</button>
+      <button class="nav-item" data-page="matches"><span>▣</span> Partidos</button>
+      <button class="nav-item" data-page="competitions"><span>♜</span> Competiciones</button>
+      <button class="nav-item" data-page="whatif"><span>◇</span> Universo What If</button>
+      <button class="nav-item" data-page="market"><span>⇄</span> Mercado</button>
+      <button class="nav-item" data-page="press"><span>▤</span> Prensa</button>
+      <button class="nav-item" data-page="recorder"><span>◉</span> Recorder PC</button>
+      <button class="nav-item" data-page="settings"><span>⚙</span> Ajustes</button>
+    </nav>
+    <div class="sidebar-foot"><span class="online-dot"></span> Prototipo local · datos en este dispositivo</div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><button id="menuBtn" class="icon-btn" aria-label="Abrir menú">☰</button><div class="crumb">ROLÍN SCOUT <span>/</span> <b id="pageCrumb">RESUMEN</b></div><div class="top-right"><span class="season-pill">TEMPORADA 2018/19</span><div class="avatar">LR</div></div></header>
+    <section id="content" class="content"></section>
+    <nav class="mobile-nav" id="mobileNav">
+      <button class="active" data-page="overview"><span>◈</span><small>Inicio</small></button>
+      <button data-page="career"><span>♙</span><small>Carrera</small></button>
+      <button data-page="matches"><span>▣</span><small>Partidos</small></button>
+      <button data-page="whatif"><span>◇</span><small>What If</small></button>
+      <button data-page="market"><span>⇄</span><small>Más</small></button>
+    </nav>
+  </main>
+</div>
+<div id="toast" class="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
