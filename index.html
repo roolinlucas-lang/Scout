@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="description" content="Rolín Scout: gestión y análisis de carrera futbolística">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>Rolín Scout</title>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="crest">RS</span><div><b>ROLÍN SCOUT</b><small>CAREER INTELLIGENCE</small></div></div>
+  <button id="exportTop" class="btn secondary">Exportar copia</button>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="player-mini"><div class="avatar">LR</div><div><b>Lucas Rolín</b><small>Extremo derecho · Chile</small></div></div>
+    <nav id="nav">
+      <button class="nav active" data-view="dashboard">Resumen</button>
+      <button class="nav" data-view="career">Carrera</button>
+      <button class="nav" data-view="matches">Partidos</button>
+      <button class="nav" data-view="honours">Títulos y premios</button>
+      <button class="nav" data-view="whatif">Universo What If</button>
+      <button class="nav" data-view="settings">Ajustes y nube</button>
+    </nav>
+    <div class="side-foot">MOBILE 0.3 · BUILD CLOUD-READY</div>
+  </aside>
+  <main id="main">
+    <section class="view active" id="view-dashboard">
+      <p class="eyebrow">CENTRO DE CONTROL</p><h1>Resumen de carrera</h1>
+      <p class="muted">Tu carrera, tus registros y la continuidad del universo alternativo.</p>
+      <div class="stats" id="stats"></div>
+      <div class="panel"><div class="panel-head"><div><p class="eyebrow">ACTIVIDAD</p><h2>Últimos partidos</h2></div><button class="btn" data-go="matches">Ver partidos</button></div><div id="recentMatches"></div></div>
+      <div class="panel"><p class="eyebrow">ESTADO DE DATOS</p><div id="syncStatus" class="status">Guardado localmente en este dispositivo</div><p class="muted small">La sincronización en la nube se activa al configurar Supabase en Ajustes.</p></div>
+    </section>
+    <section class="view" id="view-career">
+      <p class="eyebrow">TRAYECTORIA</p><h1>Carrera</h1><p class="muted">Registros organizados por club y temporada.</p>
+      <div id="careerCards" class="cards"></div>
+    </section>
+    <section class="view" id="view-matches">
+      <p class="eyebrow">REGISTRO DE RENDIMIENTO</p><h1>Partidos</h1><p class="muted">Agregá resultados y estadísticas. Los datos quedan vinculados a tu carrera.</p>
+      <div class="panel">
+        <h2>Registrar partido</h2>
+        <form id="matchForm" class="form-grid">
+          <label>Fecha<input name="date" type="date" required></label>
+          <label>Competición<input name="competition" placeholder="Ej. LaLiga" required></label>
+          <label>Club<input name="club" placeholder="Real Madrid" required></label>
+          <label>Rival<input name="opponent" placeholder="Barcelona" required></label>
+          <label>Resultado<input name="score" placeholder="3-1" required></label>
+          <label>Goles<input name="goals" type="number" min="0" value="0" required></label>
+          <label>Asistencias<input name="assists" type="number" min="0" value="0" required></label>
+          <label>Minutos<input name="minutes" type="number" min="0" max="130" value="90"></label>
+          <label class="wide">Notas<textarea name="notes" placeholder="Contexto, rendimiento, incidencias..."></textarea></label>
+          <button class="btn gold wide" type="submit">Guardar partido</button>
+        </form>
+      </div>
+      <div class="panel"><div class="panel-head"><h2>Historial de partidos</h2><span id="matchCount" class="muted small"></span></div><div id="matchList"></div></div>
+    </section>
+    <section class="view" id="view-honours">
+      <p class="eyebrow">PALMARÉS</p><h1>Títulos y premios</h1><p class="muted">Hechos confirmados en tu partida. No se agregan logros automáticamente.</p><div id="honoursList"></div>
+    </section>
+    <section class="view" id="view-whatif">
+      <p class="eyebrow">UNIVERSO ALTERNATIVO</p><h1>What If</h1>
+      <div class="notice">Regla editorial: separar hechos confirmados, datos pendientes de validar, hipótesis y proyecciones. No convertir rumores en fichajes ni estimaciones en hechos.</div>
+      <div class="panel"><h2>Principios del motor</h2><ul><li>La historia real del fútbol es el punto de partida.</li><li>Lucas Rolín existe dentro de esa cronología alternativa.</li><li>Las consecuencias deportivas, tácticas, económicas y mediáticas deben ser plausibles.</li><li>Los premios y la jerarquía se evalúan por contexto, no solo por estadísticas.</li><li>Cada acontecimiento debe respetar la continuidad temporal.</li></ul></div>
+      <div class="panel"><h2>Cronología registrada</h2><div id="timeline"></div></div>
+    </section>
+    <section class="view" id="view-settings">
+      <p class="eyebrow">CONFIGURACIÓN</p><h1>Ajustes y nube</h1><p class="muted">Respaldo local, cuenta y sincronización entre dispositivos.</p>
+      <div class="panel"><h2>1. Datos de carrera</h2><p class="muted">Exportá una copia antes de importar o cambiar de dispositivo.</p><div class="actions"><button class="btn" id="exportBtn">Exportar JSON</button><label class="btn secondary filebtn">Importar JSON<input id="importFile" type="file" accept="application/json,.json"></label></div><p class="small muted">La importación reemplaza los datos actuales de este navegador. Exportá primero una copia.</p></div>
+      <div class="panel"><h2>2. Conectar Supabase</h2><p class="muted">Creá un proyecto gratuito en Supabase. En Project Settings → API copiá Project URL y la clave pública anon/publishable.</p>
+        <form id="configForm" class="form-grid">
+          <label class="wide">Project URL<input id="supabaseUrl" type="url" placeholder="https://xxxxxxxx.supabase.co"></label>
+          <label class="wide">Publishable / anon key<input id="supabaseKey" type="password" autocomplete="off" placeholder="sb_publishable_... o eyJ..."></label>
+          <div class="wide actions"><button class="btn gold" type="submit">Guardar conexión</button><button class="btn secondary" type="button" id="clearConfig">Desconectar</button></div>
+        </form>
+        <p id="configState" class="small muted">Sin configurar.</p>
+      </div>
+      <div class="panel"><h2>3. Cuenta</h2><p class="muted">Registrate con tu email y una contraseña. Después podrás iniciar sesión desde otro dispositivo con la misma cuenta.</p>
+        <form id="authForm" class="form-grid">
+          <label class="wide">Email<input id="authEmail" type="email" required placeholder="tu@email.com"></label>
+          <label class="wide">Contraseña<input id="authPassword" type="password" required minlength="8" placeholder="Mínimo 8 caracteres"></label>
+          <div class="wide actions"><button class="btn gold" type="button" id="signUp">Crear cuenta</button><button class="btn" type="button" id="signIn">Iniciar sesión</button><button class="btn secondary" type="button" id="signOut">Cerrar sesión</button></div>
+        </form><p id="authState" class="small muted">No hay sesión iniciada.</p>
+      </div>
+      <div class="panel"><h2>4. Sincronización</h2><p class="muted">La nube usa una fila privada por usuario. RLS impide que otros usuarios lean tus datos.</p><div class="actions"><button id="cloudSave" class="btn gold">Subir datos a la nube</button><button id="cloudLoad" class="btn">Descargar datos de la nube</button></div><p id="cloudState" class="small muted">Requiere URL, clave, cuenta y SQL instalado.</p></div>
+      <div class="panel"><h2>Configuración de Supabase</h2><ol><li>Creá un proyecto en <b>supabase.com</b>.</li><li>Abrí SQL Editor → New query.</li><li>Copiá todo el contenido de <code>supabase_setup.sql</code> incluido en este ZIP y ejecutalo.</li><li>En Project Settings → API copiá Project URL y la clave pública (anon/publishable).</li><li>Pegá esos dos valores arriba, guardá y creá tu cuenta.</li><li>Si Supabase pide confirmar el email, abrí el correo y confirmalo.</li><li>Importá tu copia JSON y tocá «Subir datos a la nube».</li><li>En otro dispositivo abrí la misma web, configurá las mismas credenciales, iniciá sesión y tocá «Descargar datos de la nube».</li></ol><div class="notice warning">Nunca pegues aquí la clave service_role, secret key, contraseña de Supabase ni tokens privados. Solo la clave pública anon/publishable.</div></div>
+    </section>
+  </main>
+</div>
+<div id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body></html>
